@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="css/css.css"/>
+  <script type="text/javascript" src="js/animate.js"></script>
+</head>
+<body>
+<div class="wrap" id="wrap">
+  <div class="slide" id="slide">
+    <ul>
+      <li><a href="#"><img src="images/1.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images/2.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images/3.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images/4.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images/5.jpg" alt=""/></a></li>
+    </ul>
+    <div class="arrow" id="arrow">
+      <a href="javascript:;" class="prev" id="arrLeft"></a>
+      <a href="javascript:;" class="next" id="arrRight"></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+  var Wrap = document.getElementById("wrap")
+  var Arrow = document.getElementById("arrow")
+  var slide = document.getElementById("slide")
+  var lis = slide.children[0].children
+  var config = [{"width": 400, "top": 20, "left": 50, "opacity": 0.2, "zIndex": 2},//0
+                {"width": 600, "top": 70, "left": 0, "opacity": 0.8, "zIndex": 3},//1
+                {"width": 800, "top": 100, "left": 200, "opacity": 1, "zIndex": 4},//2
+                {width: 600, top: 70, left: 600, opacity: 0.8, zIndex: 3},//3
+                {"width": 400, "top": 20, "left": 750, "opacity": 0.2, "zIndex": 2}//4
+               ];//其实就是一个配置单 规定了每张图片的大小位置层级透明度
+  Wrap.onmouseover = function () {
+    animate(arrow, {
+      "opacity": 1
+    })
+    clearInterval(timer)
+  }
+
+  Wrap.onmouseout = function () {
+    animate(arrow, {
+      "opacity": 0
+    })
+    clearInterval(timer)
+    timer = setInterval(arrRight.onclick, 3000)
+  }
+  //    节流阀 核心思想 当动画执行完毕后，在执行后面的动画，利用回调函数
+  //    在缓动中的回调函数内添加  flag = true
+  //    首先声明一个变量 flag = true  if(flag){执行动画，完毕之后让flag=false}
+  var flag = true
+  function fuZhi() {
+    for (i = 0; i < lis.length; i++) {
+      animate(lis[i], config[i], function () {
+        flag = true
+      })
+    }
+  }
+  var arrLeft = document.getElementById("arrLeft")
+  var arrRight = document.getElementById("arrRight")
+  fuZhi()
+//  左侧按钮
+  arrLeft.onclick = function () {
+    if (flag) {
+      config.push(config.shift())
+      fuZhi()
+      flag = false
+    }
+  }
+//  右侧按钮
+  arrRight.onclick = function () {
+    if (flag) {
+      config.unshift(config.pop())
+      fuZhi()
+      flag = false
+    }
+  }
+  var timer = null
+//  定时器自动播放
+  timer = setInterval(arrRight.onclick, 2000)
+</script>
+</html>

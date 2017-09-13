@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    #box {
+      height: 200px;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+<div id="box">
+
+</div>
+</body>
+
+
+<script>
+
+//  window.onresize = function () {
+//    var clientX =  window.innerWidth ||document.documentElement.clientWidth ||document.body.clientWidth || 0;
+//    var clientY =  window.innerHeight ||document.documentElement.clientHeight ||document.body.clientHeight || 0;
+//    console.log("宽是"+clientX+"高是"+clientY+"拉动了"+count+"次")
+//  }
+
+
+  window.onresize = function () {
+   change()
+  }
+
+change()
+function change() {
+  if (client().clientX > 960) {
+    document.body.style.backgroundColor = "red"
+    document.getElementById("box").innerHTML = "电脑"
+  } else if (client().clientX > 640) {
+    document.body.style.backgroundColor = "#0f0"
+    document.getElementById("box").innerHTML = "平板"
+  }
+  else {
+    document.body.style.backgroundColor = "yellow"
+    document.getElementById("box").innerHTML = "手机"
+  }
+}
+function client() {
+  return {
+    clientX : window.innerWidth ||document.documentElement.clientWidth ||document.body.clientWidth || 0,
+    clientY :  window.innerHeight ||document.documentElement.clientHeight ||document.body.clientHeight || 0,
+  }
+}
+
+</script>
+</html>
